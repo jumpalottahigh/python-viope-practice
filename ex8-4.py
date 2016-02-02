@@ -7,7 +7,7 @@ FILE_NAME = "notebook.txt"
 try:
     handle = open(FILE_NAME, "r")
     handle.close()
-except Exception:
+except IOError:
     print("No default notebook was found, created one.")
 
 
@@ -20,9 +20,9 @@ while True:
         try:
             handle = open(FILE_NAME, "r")
             content = handle.read()
-            print(content)
             handle.close()
-        except Exception:
+            print(content)
+        except IOError:
             continue
     elif(choice == 2):
         handle = open(FILE_NAME, "a")
@@ -31,16 +31,19 @@ while True:
         handle.write(note +":::"+ curr_time + "\n")
         handle.close()
     elif(choice == 3):
-        handle = open(FILE_NAME, "w")
-        handle.close()
-        print("Notes deleted.")
+        try:
+            handle = open(FILE_NAME, "w")
+            handle.close()
+            print("Notes deleted.")
+        except IOError:
+            print("Error")
     elif(choice == 4):
         FILE_NAME = input("Give the name of the new file: ")
 
         try:
             handle = open(FILE_NAME, "r")
             handle.close()
-        except Exception:
+        except IOError:
             print("No notebook with that name detected, created one.")
 
     elif(choice == 5):
